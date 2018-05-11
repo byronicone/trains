@@ -1,0 +1,11 @@
+{
+  "name": "thoughtworks-trains-javascript",
+  "version": "1.0.0",
+  "description": "Problem 1: Trains",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "Byron Barnes",
+  "license": "ISC"
+}
