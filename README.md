@@ -6,10 +6,12 @@ Input:  A directed graph where a node represents a town and an edge represents a
  
 Output: For test input 1 through 5, if no such route exists, output 'NO SUCH ROUTE'.  Otherwise, follow the route as given; do not make any extra stops!  For example, the first problem means to start at city A, then travel directly to city B (a distance of 5), then directly to city C (a distance of 4).  (See tests in trains-test.js)  
   
-## Design Asssumptions Considerations
+## Design Asssumptions & Considerations
 1. I used Javascript's built-in Map to model a graph of vertices with adjacency lists.  The values of vertex, edge, and weight (distance) were simple enough to not require extraneous code.  Should the problem get more complex - requiring descriptions of towns, special considerations for a subset of routes, etc - it may be worth creating unique objects like City (vertex) and Route (edge/weight) but nothing in this problem anticipates that.  I prefer to keep a simple MVP oriented approach.  
   
 2.  For modeling the key/value or neighborMap, I debated between an adjacency matrix vs adjacency list.  In my opinion the former has too large a storage cost at O(n^2) to justify the time savings of adding/removing edges (which is not a part of the problem statement anyway).  I nested a second Map ( of neighborName, neighborDistance) in the value of cityMap's keys to model an adjacency list.
+
+3.  Test #11 seems to indicate that there are an infinite number of routes.  There are several circular routes that repeat themselves.  To avoid the problem of infinite loops, I chose an arbitrary limit of 10 stops to bound the search.  In practice, I would suggest that this code stop searching when the arrival city is reached, but seeing as this would break the test result here I did not implement it that way.  
   
 ### TODO
 -Add method to add routes instead of doing it inline (for clarity)  
