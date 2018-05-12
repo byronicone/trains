@@ -1,13 +1,13 @@
 # trains
 Finding the optimal routes for railways between cities in Kiwiland
 
-##Problem Statement
+## Problem Statement
 
-##Design Considerations
+## Design Considerations
 Directed Graph
 Adjacency Matrix vs List?
 
-###TODO
+### TODO
 Add method to add routes instead of doing it inline (for clarity)
 use push instead of replacing whole map for modifying neighbors
 BFS vs DFS for graph? explain what you've done
