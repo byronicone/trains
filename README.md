@@ -16,9 +16,13 @@ I debated between this and adjacency matrix.  In my opinion the matrix has too l
 3.  **I chose an arbitary limit of 10 stops to bound findTrips**  
 Test #11 seems to indicate that there are an infinite number of routes.  In practice, I would suggest that this code stop searching when the arrival city is reached, but seeing as this would break the test result here I did not implement it that way.    
 
-4.  **Additional tests have been added after #11 to account for edge cases, should the reviewer want to try their luck :)**  
+4.  **For finding possible trips, I used a depth-first search of the graph**
+This is implemented by recursively searching the neighbors of the current "departure" node and terminating the search when one of two conditions occurs:  we reach the max number of stops (default of 10) OR the maximum distance for a route. Any time the "arrival" node is being examined, we add a route to the result set.  As mentioned before, this would be the exit condition in a production scenario in my opinion, but to accomodate the test results I used the optional max limits instead.
+
+5. **Two algorithms for finding shortest possible route: 1 brute force sorting algorithm, and 1 implementation of Dijkstra's algorithm**
+The sorting will work for a small data set with little penalty.  The more verbose Dijkstra algorithm is explained here, with pseudocode which I have followed https://en.wikipedia.org/wiki/Dijkstra's_algorithm.
+
+6.  **Additional tests have been added after #11 to account for edge cases, should the reviewer want to try their luck :)**  
   
 ### TODO
--Add method to add routes instead of doing it inline (for clarity)  
--BFS vs DFS for graph? explain what you've done  
 -Dijkstra's algorithm for shortest path (optional: use fibonacci heap)  
