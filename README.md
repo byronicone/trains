@@ -25,4 +25,4 @@ The sorting will work for a small data set with little penalty.  The more verbos
 6.  **Additional tests have been added after #11 to account for edge cases, should the reviewer want to try their luck :)**  
   
 ### TODO
--Dijkstra's algorithm for shortest path (optional: use fibonacci heap)  
+-Allow input.
