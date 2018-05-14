@@ -7,7 +7,7 @@ To run my interactive command prompt:
 1. Install node.js and npm.  
 2. Navigate to the root of the project.  You should be on the same level as index.js and navigator.js.  
 3. Run `npm start`  
-4. Type/paste in the sample data set (i.e. AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7)  
+4. Hit enter to source the data set from input.txt, OR type it in here (default: `AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7`)  
 5. Input `1` to run the tests specified in the problem statement.    
 6. To play around further (and see the actual routes between cities) use options `2-4`.  
 7. Option `5` will allow a new data set to be entered so you can re-run the tests.  
