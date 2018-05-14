@@ -1,5 +1,6 @@
 const assert = require('assert');
 const nav= require('../navigator');
+const NO_ROUTE = 'NO SUCH ROUTE';
 
 describe('trains', () => {
   //Graph AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7
@@ -17,7 +18,7 @@ describe('trains', () => {
     assert.equal(nav.computeDistance('A','E','B','C','D'),22);
   })
   it('computes distance of nonexistent route A-E-D', () => {
-    assert.equal(nav.computeDistance('A','E','D'),'NO SUCH ROUTE');
+    assert.equal(nav.computeDistance('A','E','D'),NO_ROUTE);
   })
   it('finds number of trips from C to C with a max of 3 stops', () => {
     let options = {};
@@ -49,22 +50,22 @@ describe('trains', () => {
     options.maxDistance=30;
     let trips = nav.findTrips('C','C',options);
     console.log(trips);
-    assert.equal(trips.length,9);
+    assert.equal(trips.length,7);
   })
   it('returns 0 if only one city is passed', () => {
     assert.equal(nav.computeDistance('A'),0);
   })
   it('returns NO SUCH ROUTE if invalid city is passed', () => {
-    assert.equal(nav.computeDistance('AD'),'NO SUCH ROUTE');
+    assert.equal(nav.computeDistance('AD'),NO_ROUTE);
   })
   it('returns NO SUCH ROUTE if any city is not in the map', () => {
-    assert.equal(nav.computeDistance('A','X'),'NO SUCH ROUTE');
+    assert.equal(nav.computeDistance('A','X'),NO_ROUTE);
   })
   it('returns NO SUCH ROUTE if blank input', () => {
-    assert.equal(nav.computeDistance(),'NO SUCH ROUTE');
+    assert.equal(nav.computeDistance(),NO_ROUTE);
   })
   it('returns NO SUCH ROUTE if city is unreachable:', () =>{
-    assert.equal(nav.getMinTripDijkstra('C','A'), 'NO SUCH ROUTE');
+    assert.equal(nav.getMinTripDijkstra('C','A'), NO_ROUTE);
   })
   it('calculates the shortest distance from C to B', () =>{
     assert.equal(nav.getMinTripDijkstra('C','B')[1], 5);

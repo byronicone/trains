@@ -4,8 +4,9 @@
   "description": "Problem 1: Trains",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
     "test": "mocha"
   },
-  "author": "Byron Barnes",
+  "author": "Anonymous (for job interview!)",
   "license": "ISC"
 }

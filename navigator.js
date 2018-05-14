@@ -2,6 +2,7 @@ var exports = module.exports;
 
 //In format [City Name, Map:[Neighbor Name, Distance for edge of (city, neighbor)]]
 var cityMap = new Map();
+const NO_ROUTE = 'NO SUCH ROUTE';
 
 /* Load in a map */
 exports.loadMap = (...graph) => {
@@ -9,9 +10,12 @@ exports.loadMap = (...graph) => {
     route = route.split('');
     city = route[0]; //"A"
     let neighbor = route[1]; //"B"
-    let distance = parseInt(route[2]); //"5"
+    let distance = '';
+    for(let i = 2; i < route.length; i++){
+      distance+=route[i]; //"5"
+    }
     let neighborMap = cityMap.has(city) ? cityMap.get(city) : new Map();
-    neighborMap.set(neighbor, distance);
+    neighborMap.set(neighbor, parseInt(distance));
     cityMap.set(city, neighborMap);
   })
   console.log(cityMap);
@@ -43,7 +47,7 @@ exports.computeDistance = (...cities)  => {
     }
   }
   //One of the cities either does not exist or is not connected to the first vertex
-  return 'NO SUCH ROUTE';
+  return NO_ROUTE;
 }
 
 /* Get the trips between two cities
@@ -61,7 +65,7 @@ exports.findTrips = (departure, arrival, options, currentStop, currentDistance) 
   let connections = cityMap.get(departure);
   for(let [city, distance] of connections){
     let totalDistance = currentDistance+distance;
-    if(currentStop < maxStops && totalDistance <= maxDistance){ //not max, free to search more edges.
+    if(currentStop < maxStops && totalDistance < maxDistance){ //not max, free to search more edges.
       if((city === arrival) && (!exact || (exact && currentStop==maxStops-1))){
         routes.push([city, distance]);
       }
@@ -69,7 +73,7 @@ exports.findTrips = (departure, arrival, options, currentStop, currentDistance) 
       exports.findTrips(city, arrival, options, currentStop, totalDistance).forEach( function (val, i) {
         prefix = currentStop == 0 ? departure + city : city;
         let edgeDistance = distance + val[1];
-        if(edgeDistance <= maxDistance){
+        if(edgeDistance < maxDistance){
           routes.push([prefix+val[0], edgeDistance]);
         }
       });
@@ -84,7 +88,7 @@ exports.findTrips = (departure, arrival, options, currentStop, currentDistance) 
 exports.getMinTripBrute = (departure, arrival) => {
   let trips = exports.findTrips(departure, arrival);
   trips.sort( function(a,b){ return a[1]-b[1] });
-  return trips[0] || 'NO SUCH ROUTE';
+  return trips[0] || NO_ROUTE;
 }
 
 //Dijkstra's algorithm
@@ -134,7 +138,7 @@ exports.getMinTripDijkstra = (departure, arrival) => {
       }
       minTrip=uName.concat(minTrip);
 			if(distance==0){
-				return 'NO SUCH ROUTE';
+				return NO_ROUTE;
 			}
       return [minTrip,distance];
     }
