@@ -35,12 +35,12 @@ describe('trains', () => {
     assert.equal(trips.length, 3);
   })
   it('calculates shortest distance from A to C', () => {
-    let minTrip = nav.getMinTripBrute('A','C');
+    let minTrip = nav.getMinTripDijkstra('A','C');
     console.log(minTrip);
     assert.equal(minTrip[1],9);
   })
   it('calculates shortest distance from B to B', () => {
-    let minTrip= nav.getMinTripBrute('B','B');
+    let minTrip= nav.getMinTripDijkstra('B','B');
     console.log(minTrip);
     assert.equal(minTrip[1],9);
   })
@@ -54,6 +54,9 @@ describe('trains', () => {
   it('returns 0 if only one city is passed', () => {
     assert.equal(nav.computeDistance('A'),0);
   })
+  it('returns NO SUCH ROUTE if invalid city is passed', () => {
+    assert.equal(nav.computeDistance('AD'),'NO SUCH ROUTE');
+  })
   it('returns NO SUCH ROUTE if any city is not in the map', () => {
     assert.equal(nav.computeDistance('A','X'),'NO SUCH ROUTE');
   })
@@ -61,7 +64,7 @@ describe('trains', () => {
     assert.equal(nav.computeDistance(),'NO SUCH ROUTE');
   })
   it('returns NO SUCH ROUTE if city is unreachable:', () =>{
-    assert.equal(nav.getMinTripBrute('C','A'), 'NO SUCH ROUTE');
+    assert.equal(nav.getMinTripDijkstra('C','A'), 'NO SUCH ROUTE');
   })
   it('calculates the shortest distance from C to B', () =>{
     assert.equal(nav.getMinTripDijkstra('C','B')[1], 5);

@@ -21,12 +21,12 @@ exports.loadMap = (...graph) => {
 exports.computeDistance = (...cities)  => {
   //find the list of neighbors of the first city
   let first = cities[0];
-  if(first){
+	if(first && cityMap.has(first)){
     //attempt to calculate distance to next city
     let next = cities[1];
     let neighborMap = cityMap.get(first);
     let distance = neighborMap.get(next);
-    if(!next){
+    if(!next || first === next){
       return 0; //this is the last city
     }
     else if(distance){
@@ -49,7 +49,7 @@ exports.computeDistance = (...cities)  => {
 /* Get the trips between two cities
  * with a maximum or exact number of stops*/
 exports.findTrips = (departure, arrival, options, currentStop, currentDistance) => {
-  currentStop = currentStop+1 || 0;
+	currentStop = currentStop+1 || 0;
   currentDistance = currentDistance || 0;
   options = options || {};
   let maxStops = options.maxStops || 10;
@@ -57,7 +57,6 @@ exports.findTrips = (departure, arrival, options, currentStop, currentDistance) 
   let maxDistance = options.maxDistance || Number.POSITIVE_INFINITY;
 
   let routes=[];
-
   //get all of the direct connections from the departure city
   let connections = cityMap.get(departure);
   for(let [city, distance] of connections){
@@ -90,10 +89,20 @@ exports.getMinTripBrute = (departure, arrival) => {
 
 //Dijkstra's algorithm
 exports.getMinTripDijkstra = (departure, arrival) => {
-  let cities = cityMap.keys();
-  let unvisited = new Map();
-  let minTrip = '';
-  let distance = 0;
+  let searchMap = undefined;
+
+	//special case, for coming back to the start node...
+	if(departure===arrival){
+		arrival='$';
+		searchMap = copyMapAddGoal(departure);
+	}
+	else{
+		searchMap = cityMap;
+	}
+
+  let cities = searchMap.keys();
+	let unvisited = new Map();
+
   //initialize distances from departure
   for(let cityName of cities){
     unvisited.set(cityName, {
@@ -101,27 +110,38 @@ exports.getMinTripDijkstra = (departure, arrival) => {
       prev: undefined
     });
   }
+
+	let minTrip = '';
+	let distance = 0;
+
   while(unvisited.size>0){
     let u = getClosest(unvisited);
     let uName = u[0];
     let uDist = u[1].dist;
     let uPrev = u[1].prev;
-
+		//this is the exit condition, we have arrived.
+		//to satisfy the conditions of the test, we assume we must take at least
+		//one train.  else B->B would be 0.
     if(uName === arrival){
       while(uPrev){
         let firstNode = uName;
-        minTrip=uName.concat(minTrip);
+        if(uName=='$'){uName=departure;}
+				minTrip=uName.concat(minTrip);
         uName = uPrev[0];
         uDist = uPrev[1].dist;
         uPrev=uPrev[1].prev;
-        distance+=cityMap.get(uName).get(firstNode);
+        distance+=searchMap.get(uName).get(firstNode);
       }
       minTrip=uName.concat(minTrip);
+			if(distance==0){
+				return 'NO SUCH ROUTE';
+			}
       return [minTrip,distance];
     }
+
     unvisited.delete(uName);
 
-    let neighbors = cityMap.get(uName);
+    let neighbors = searchMap.get(uName);
     for(let n of neighbors){
       let v = unvisited.get(n[0]);
       if(v){
@@ -145,5 +165,33 @@ function getClosest(cities){
       min = city.dist;
     }
   }
-  return minCity;
+ return minCity;
+}
+
+//we have to split departure into two nodes:
+//original and goal (denoted by $).
+//adjacency list updated to point to $ where city = departure.
+function copyMapAddGoal(departure){
+	let specialMap = new Map();
+	//then re-point the nodes.
+	for(let city of cityMap){
+
+		let name = city[0];
+		//if we don't call new, we'll mutate the master copy of cityMap!
+		let neighbors = new Map(city[1]);
+
+		specialMap.set(name, neighbors);
+
+		for(let n of neighbors){
+			let nbrName = n[0];
+			let nbrDist = n[1];
+			if(nbrName == departure){
+				neighbors.delete(nbrName);
+				neighbors.set('$', nbrDist);
+			}
+		}
+	}
+
+	specialMap.set('$', new Map());
+	return specialMap;
 }
