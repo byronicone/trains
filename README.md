@@ -34,10 +34,10 @@ The sorting will work for a small data set with little penalty.  The more verbos
   
 ### TODO
 If I had more time, I'd do the following:  
-*Model the graph as a set of classes instead of using Map
-*Refactor Dijkstra algorithm to be less verbose and include more helpers
-*Make the input a little more robust (or build a UI)
-
+*Model the graph as a set of classes instead of using Map  
+*Refactor Dijkstra algorithm to be less verbose and include more helpers  
+*Make the input a little more robust (or build a UI)  
+  
 ## Problem Statement 
 The local commuter railroad services a number of towns in Kiwiland.  Because of monetary concerns, all of the tracks are 'one-way.'  That is, a route from Kaitaia to Invercargill does not imply the existence of a route from Invercargill to Kaitaia.  In fact, even if both of these routes do happen to exist, they are distinct and are not necessarily the same distance!
  
