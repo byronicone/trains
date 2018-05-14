@@ -1,6 +1,6 @@
 # trains
 
-##Instructions for Interviewer
+## Instructions for Interviewer  
 Hello there!  Hope you enjoy my code and tests.  Here's how to run it.  
   
 1. Install node.js and npm.  
