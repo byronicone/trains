@@ -25,4 +25,6 @@ The sorting will work for a small data set with little penalty.  The more verbos
 6.  **Additional tests have been added after #11 to account for edge cases, should the reviewer want to try their luck :)**  
   
 ### TODO
--Allow input.
+If I had more time, I'd do the following:  
+*Refactor Dijkstra algorithm to be less verbose and include more helpers
+*Make the input a little more robust (or build a UI)
