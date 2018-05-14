@@ -64,22 +64,24 @@ exports.findTrips = (departure, arrival, options, currentStop, currentDistance) 
   let routes=[];
   //get all of the direct connections from the departure city
   let connections = cityMap.get(departure);
-  for(let [city, distance] of connections){
-    let totalDistance = currentDistance+distance;
-    if(currentStop < maxStops && totalDistance < maxDistance){ //not max, free to search more edges.
-      if((city === arrival) && (!exact || (exact && currentStop==maxStops-1))){
-        let add = city;
-	if(currentStop==0){add = departure+city;}
-	routes.push([add, distance]);
-      }
+  if(connections){
+    for(let [city, distance] of connections){
+      let totalDistance = currentDistance+distance;
+      if(currentStop < maxStops && totalDistance < maxDistance){ //not max, free to search more edges.
+	if((city === arrival) && (!exact || (exact && currentStop==maxStops-1))){
+	  let add = city;
+	  if(currentStop==0){add = departure+city;}
+	  routes.push([add, distance]);
+	}
 
-      exports.findTrips(city, arrival, options, currentStop, totalDistance).forEach( function (val, i) {
-        prefix = currentStop == 0 ? departure + city : city;
-        let edgeDistance = distance + val[1];
-        if(edgeDistance < maxDistance){
-          routes.push([prefix+val[0], edgeDistance]);
-        }
-      });
+	exports.findTrips(city, arrival, options, currentStop, totalDistance).forEach( function (val, i) {
+	  prefix = currentStop == 0 ? departure + city : city;
+	  let edgeDistance = distance + val[1];
+	  if(edgeDistance < maxDistance){
+	    routes.push([prefix+val[0], edgeDistance]);
+	  }
+	});
+      }
     }
   }
   return routes;

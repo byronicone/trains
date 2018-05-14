@@ -5,7 +5,7 @@ var current = null;
 var cities = null;
 var options = {};
 var result = {};
-var fileInput = fs.readFileSync('./input.txt','utf-8');
+var fileInput = null;
 
 process.stdin.resume();
 
@@ -32,6 +32,7 @@ prompt.on(':result', function(){
 });
 
 function init(){
+  fileInput = fs.readFileSync('./input.txt','utf-8');
   prompt.emit(':new', 'graph', '\nPlease enter a comma delimited list of edges to represent a railroad network.'
 			    +'\nExample: AB5, BC2, CA1'
 			    +'\n\nInput: (enter to use input.txt file) ');
