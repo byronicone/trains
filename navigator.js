@@ -1,11 +1,12 @@
 var exports = module.exports;
 
 //In format [City Name, Map:[Neighbor Name, Distance for edge of (city, neighbor)]]
-var cityMap = new Map();
+var cityMap = undefined;
 const NO_ROUTE = 'NO SUCH ROUTE';
 
 /* Load in a map */
 exports.loadMap = (...graph) => {
+  cityMap=new Map();
   graph.map( (route) => {  //route: "AB5"
     route = route.split('');
     city = route[0]; //"A"
@@ -67,7 +68,9 @@ exports.findTrips = (departure, arrival, options, currentStop, currentDistance) 
     let totalDistance = currentDistance+distance;
     if(currentStop < maxStops && totalDistance < maxDistance){ //not max, free to search more edges.
       if((city === arrival) && (!exact || (exact && currentStop==maxStops-1))){
-        routes.push([city, distance]);
+        let add = city;
+	if(currentStop==0){add = departure+city;}
+	routes.push([add, distance]);
       }
 
       exports.findTrips(city, arrival, options, currentStop, totalDistance).forEach( function (val, i) {

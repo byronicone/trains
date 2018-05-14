@@ -1,9 +1,12 @@
 var EventEmitter = require('events');
+var fs = require('fs');
 var prompt = new EventEmitter();
 var current = null;
 var cities = null;
 var options = {};
 var result = {};
+var fileInput = fs.readFileSync('./input.txt','utf-8');
+
 process.stdin.resume();
 
 var navigator = require('./navigator');
@@ -31,13 +34,17 @@ prompt.on(':result', function(){
 function init(){
   prompt.emit(':new', 'graph', '\nPlease enter a comma delimited list of edges to represent a railroad network.'
 			    +'\nExample: AB5, BC2, CA1'
-			    +'\n\nInput: ');
+			    +'\n\nInput: (enter to use input.txt file) ');
 }
 
 prompt.on('graph', function(data){
+	if(data=='' && fileInput){
+	  data=fileInput;
+	}
 	if(data != -1){ //-1 indicates the navigator has already loaded a map.
-		data=data.split(',');
-		navigator.loadMap(...data);
+	  console.log(data);
+	  data=data.split(',');
+	  navigator.loadMap(...data);
 	}
   prompt.emit(':new', 'options', '\n1. Run the Thoughtworks test suite.'
 				+'\n2. Compute distance of an intercity route.'
@@ -87,7 +94,7 @@ prompt.on('trips1', function(data){
 	if(data != -1){ //-1 indicates a retry of a failed input.
 	  cities=data.split(',');
 	}
-	prompt.emit(':new', 'trips2', '\nMaximim number of stops?'
+	prompt.emit(':new', 'trips2', '\nMaximum number of stops?'
 				    +'\n\nInput: (enter for default: 10)');
 });
 
