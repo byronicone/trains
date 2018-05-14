@@ -1,10 +1,19 @@
 # trains
-## Problem Statement 
-The local commuter railroad services a number of towns in Kiwiland.  Because of monetary concerns, all of the tracks are 'one-way.'  That is, a route from Kaitaia to Invercargill does not imply the existence of a route from Invercargill to Kaitaia.  In fact, even if both of these routes do happen to exist, they are distinct and are not necessarily the same distance!
- 
-Input:  A directed graph where a node represents a town and an edge represents a route between two towns.  The weighting of the edge represents the distance between the two towns.  A given route will never appear more than once, and for a given route, the starting and ending town will not be the same town.  Sample: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7
- 
-Output: For test input 1 through 5, if no such route exists, output 'NO SUCH ROUTE'.  Otherwise, follow the route as given; do not make any extra stops!  For example, the first problem means to start at city A, then travel directly to city B (a distance of 5), then directly to city C (a distance of 4).  (See tests in trains-test.js)  
+
+##Instructions for Interviewer
+Hello there!  Hope you enjoy my code and tests.  Here's how to run it.  
+  
+1. Install node.js and npm.  
+2. Navigate to the root of the project.  You should be on the same level as index.js and navigator.js.  
+3. Run `npm start`  
+4. Type/paste in the sample data set (i.e. AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7)  
+5. Input `1` to run the tests specified in the problem statement.    
+6. To play around further (and see the actual routes between cities) use options `2-4`.  
+7. Option `5` will allow a new data set to be entered so you can re-run the tests.  
+  
+To run my test suite from the root of the project:  
+1. Run `npm install mocha`  
+2. Run `npm test`  
   
 ## Design Asssumptions & Considerations
 1. **I used Javascript's built-in Map to model a graph of vertices**    
@@ -22,9 +31,16 @@ This is implemented by recursively searching the neighbors of the current "depar
 5. **Two algorithms for finding shortest possible route: 1 brute force sorting algorithm, and 1 implementation of Dijkstra's algorithm**
 The sorting will work for a small data set with little penalty.  The more verbose Dijkstra algorithm is explained here, with pseudocode which I have followed https://en.wikipedia.org/wiki/Dijkstra's_algorithm.
 
-6.  **Additional tests have been added after #11 to account for edge cases, should the reviewer want to try their luck :)**  
   
 ### TODO
 If I had more time, I'd do the following:  
+*Model the graph as a set of classes instead of using Map
 *Refactor Dijkstra algorithm to be less verbose and include more helpers
 *Make the input a little more robust (or build a UI)
+
+## Problem Statement 
+The local commuter railroad services a number of towns in Kiwiland.  Because of monetary concerns, all of the tracks are 'one-way.'  That is, a route from Kaitaia to Invercargill does not imply the existence of a route from Invercargill to Kaitaia.  In fact, even if both of these routes do happen to exist, they are distinct and are not necessarily the same distance!
+ 
+Input:  A directed graph where a node represents a town and an edge represents a route between two towns.  The weighting of the edge represents the distance between the two towns.  A given route will never appear more than once, and for a given route, the starting and ending town will not be the same town.  Sample: AB5, BC4, CD8, DC8, DE6, AD5, CE2, EB3, AE7
+ 
+Output: For test input 1 through 5, if no such route exists, output 'NO SUCH ROUTE'.  Otherwise, follow the route as given; do not make any extra stops!  For example, the first problem means to start at city A, then travel directly to city B (a distance of 5), then directly to city C (a distance of 4).  
